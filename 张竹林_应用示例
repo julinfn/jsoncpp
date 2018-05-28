@@ -7,8 +7,8 @@ https://github.com/open-source-parsers/jsoncpp#generating-amalgamated-source-and
 ①　解压jsoncpp-master.zip包 
 ②　在根目录下，运行python amalgamate.py 
 ③　在根目录中生成dist文件夹包含三个文件dist/json/json-forwards.h dist/json/json.h dist/json.cpp 
-④　在Qt工程目录下，生成json文件夹，并拷贝json目录下。 
-⑤　在Qt工程中添加现有文件即可。
+④　在Qt工程目录下，生成json文件夹，将json-forwards.h和json.h放到json文件夹，json.cpp文件放到工程同级文件夹。 
+⑤　工程中添加jsoncpp.cpp文件，并将json.cpp中的"#include<json/config.h>注释掉。
 
 1.3.读写JsonCpp
 1.3.1.写
