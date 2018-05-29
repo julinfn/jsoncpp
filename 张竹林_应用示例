@@ -11,6 +11,7 @@ https://github.com/open-source-parsers/jsoncpp#generating-amalgamated-source-and
 ⑤　工程中添加jsoncpp.cpp文件，并将json.cpp中的"#include<json/config.h>注释掉。
 
 //本人使用方法
+//解析文件
 void CGenerateSample::ParseJson()
 {
 	ifstream ifs(strJsonName);
@@ -50,7 +51,42 @@ void CGenerateSample::ParseJson()
 	}
 	ifs.close();
 }
+//解析字符串
+void CGenerateSample::ParseJson()
+{	
 
+	CharReaderBuilder builder;
+	builder["collectComments"] = false;
+	Value root;
+	JSONCPP_STRING errs;
+	
+        ////////////加下面这一句，将字符串转换为流即可////
+	istringstream strStream(strJsonName);
+	///////////////////////////////////////////////
+	
+	if(Json::parseFromStream(builder,strStream,&root,&errs))
+	{
+		Value & valInputs = root["Inputs"];
+		if (valInputs.size() != 3)
+		{
+			return;
+		}
+		strInShp=valInputs[0]["Path"].asString();
+		strInImg = valInputs[1]["Path"].asString();
+		strInImageXML = valInputs[2]["Path"].asString();
+
+		Value valOutputs = root["Outputs"];
+		if (valOutputs.size() != 2)
+		{
+			return;
+		}
+		strResultOutPath = valOutputs[1]["Path"].asString();
+	}
+	else
+	{
+		cout << errs.c_str() << endl;
+	}
+}
 
 
 //老接口
